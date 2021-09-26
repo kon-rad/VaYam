@@ -1,0 +1,27 @@
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-active::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-open::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-open::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected::after {
+  border-color: var(--primary-color);
+}
+
+.ant-input,
+.ant-btn {
+  border-radius: 8px;
+}
+
+.ant-btn-primary,
+.ant-btn.primary:hover {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color);
+}
+
+.ant-btn,
+.ant-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--white);
+}

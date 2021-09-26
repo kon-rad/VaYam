@@ -1,0 +1,11 @@
+/* Font */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi:wght@400;500;700&display=swap");
+
+:root {
+  --poppins: "Poppins";
+  --kaisei: "Kaisei HarunoUmi", serif;
+
+  --regular: 400;
+  --bold: 700;
+}

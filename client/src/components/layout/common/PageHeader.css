@@ -1,0 +1,45 @@
+/* Header */
+.header {
+  background-image: url(../../../assets/images/landing-header-image.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: scroll;
+  min-height: 720px;
+  color: #fff;
+  padding: 0;
+  padding-top: 100px;
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  font-size: 60px;
+  margin-bottom: 100px;
+}
+
+.header:after {
+  content: "";
+  background-color: rgba(27, 30, 58, 25%);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  z-index: 1;
+}
+
+.header .container {
+  position: relative;
+  z-index: 2;
+}
+
+.header .container .whitepaper-info {
+  padding-top: 328px;
+}
+
+.header .container .whitepaper-info h1 {
+  color: #ffffff;
+}
+
+.heading {
+  margin-bottom: 2.813rem;
+}
