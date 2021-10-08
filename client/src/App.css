@@ -4,7 +4,7 @@
 
 html,
 body {
-  background-color: #ffffff;
+  background-color: var(--white);
   font-family: var(--poppins);
   font-size: 14px;
   font-weight: 400;
@@ -98,6 +98,7 @@ a.read-more {
   width: 190px;
   display: block;
   padding: 0.608rem 0;
+  text-decoration: none;
 }
 
 a.read-more.center {
@@ -117,7 +118,7 @@ section {
   min-height: 100px;
   padding: 50px 0;
   text-align: center;
-  border-bottom: 1px solid #dddddd;
+  border-bottom: 1px solid var(--brand-natural-light-gray);
   position: relative;
 }
 

@@ -1,0 +1,59 @@
+/* Groups/ community */
+.group {
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgb(241, 237, 237);
+  margin-bottom: 40px;
+  padding: 5px;
+  width: 25%;
+}
+
+.group .ant-card-cover img.group-image {
+  border-radius: 8px 8px 0 0;
+}
+
+.group .ant-card-body {
+  text-align: left;
+  font-size: 14px;
+  position: relative;
+}
+
+.group .ant-card-body h4 {
+  margin-bottom: 1rem;
+}
+
+.group .ant-card-body h4:after {
+  content: "";
+  width: 65px;
+  height: 2px;
+  position: absolute;
+  left: 24px;
+  margin-top: 20px;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.group .ant-card-body p a {
+  color: var(--primary-color);
+  margin-left: 0.5rem;
+}
+
+.group .ant-card-body .group-members {
+  display: flex;
+
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+.group .ant-card-body .group-members img {
+  width: 30px;
+  margin-right: 10px;
+}
+
+.btn-join {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--brand-primary-red);
+  border-color: var(--brand-primary-red);
+  position: absolute;
+  right: 24px;
+}

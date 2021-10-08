@@ -1,19 +1,36 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Layout } from "antd";
+import { Layout, Row, Col } from "antd";
 import LandingLayout from "../../components/layout/LandingLayout";
+import CommunityData from "../../utilities/communities.json";
+import CommunityCard from "../../components/shared/CommunityCard";
+
 const { Content } = Layout;
 
 interface Props {}
+//const CommunityData = CommunityData.slice(0, 3);
 
 const Home = (props: Props) => {
   return (
     <LandingLayout>
       <Content>
         {/* Communities */}
-        <section>
-          <div> List of communities</div>
+        <section className="stories">
+          <div className="container">
+            <div className="see-all">
+              <Link to="/communities">See All</Link>
+            </div>
+            <h3 className="heading">"Communities"</h3>
+            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} justify="center">
+              {CommunityData.slice(0, 3).map((community, index) => (
+                <Col span={6}>
+                  <CommunityCard index={index} community={community} />
+                </Col>
+              ))}
+            </Row>
+          </div>
         </section>
+
         {/* About us */}
         <section className="about">
           <div className="container">
@@ -32,6 +49,8 @@ const Home = (props: Props) => {
             </Link>
           </div>
         </section>
+
+        {/* Roadmap */}
       </Content>
     </LandingLayout>
   );
