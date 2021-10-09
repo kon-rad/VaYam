@@ -6,6 +6,7 @@ import CommunityData from "../../utilities/communities.json";
 import CommunityCard from "../../components/shared/CommunityCard";
 import Web3Modal from 'web3modal';
 import { ethers } from 'ethers';
+import './Home.css';
 
 
 const { Content } = Layout;
@@ -95,6 +96,7 @@ const Home = (props: Props) => {
   console.log('stop: ', details);
   }
 
+  const style = { background: '#0092ff', padding: '8px 0' };
   return (
     <LandingLayout>
       <Content>
@@ -105,13 +107,13 @@ const Home = (props: Props) => {
               <Link to="/communities">See All</Link>
             </div>
             <h3 className="heading">"Jobs"</h3>
-            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} justify="center">
-              {CommunityData.slice(0, 3).map((community, index) => (
-                <Col span={6}>
+            <div className="home__row">
+            {CommunityData.slice(0, 3).map((community, index) => (
+                <div className="home__card">
                   <CommunityCard index={index} community={community} />
-                </Col>
+                </div>
               ))}
-            </Row>
+            </div>
           </div>
         </section>
 

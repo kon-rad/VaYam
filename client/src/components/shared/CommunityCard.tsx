@@ -25,12 +25,12 @@ const CommunityCard = (props: Props) => {
   const { community } = props;
   const members = community.members;
   return (
-    <div key={community.id}>
       <Card
-        className="group"
+        key={community.id}
         cover={
           <img alt="example" src={community.image} className="group-image" />
-        }
+        } 
+        bordered={false}
       >
         <Button size="small" className="btn-join">
           JOIN
@@ -48,7 +48,6 @@ const CommunityCard = (props: Props) => {
           <Link to={`/community/${community.id}`}>more</Link>
         </div>
       </Card>
-    </div>
   );
 };
 

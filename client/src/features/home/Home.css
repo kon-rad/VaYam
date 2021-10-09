@@ -4,3 +4,12 @@ section.about .content {
   margin-right: auto;
   margin-bottom: 2.813rem;
 }
+.home__row {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.home__card {
+  width: 30%;
+  margin: 10px;
+}
