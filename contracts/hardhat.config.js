@@ -2,6 +2,7 @@ require('@nomiclabs/hardhat-waffle');
 const fs = require('fs');
 const privateKey =
   fs.readFileSync('.secret').toString().trim() || '01234567890123456789';
+const goerliKey = fs.readFileSync('.goerliKey').toString().trim() || '01234567890123456789';
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
@@ -17,7 +18,7 @@ module.exports = {
       accounts: [privateKey],
     },
     goerli: {
-        url: 'https://goerli.infura.io/v3/8f05659663d54368ad0b74cc973eac60',
+        url: 'https://goerli.infura.io/v3/' + goerliKey,
         chainId: 5,
         accounts: [privateKey],
     }

@@ -19,8 +19,8 @@ const PageHeader = (props: Props) => {
               We aim to make the world better by building tools that
               empower people to make a living using their creativity and have self determination.
             </p>
-            <Link to="/whitepaper" className="read-more">
-              Whitepaper
+            <Link to="/get-started" className="read-more">
+              Get Started
             </Link>
           </Col>
         </Row>

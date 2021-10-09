@@ -42,6 +42,9 @@ const Topbar = (props: Props) => {
             <Menu.Item key="home" className="nav-item">
               <Link to="/">Home</Link>
             </Menu.Item>
+            <Menu.Item key="get-started">
+              <Link to="/get-started">Get Started</Link>
+            </Menu.Item>
             <Menu.Item key="about">
               <Link to="/about">About Us</Link>
             </Menu.Item>
