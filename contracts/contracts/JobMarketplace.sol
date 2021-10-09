@@ -105,6 +105,10 @@ contract VaYemMarketplace is ReentrancyGuard {
         );
     }
 
+    function accountExists(bytes32 hash) private bool {
+        
+    }
+
     function createJob(
         bytes32 accountHash,
         string title,
@@ -215,11 +219,7 @@ contract VaYemMarketplace is ReentrancyGuard {
         return accounts.length;
     }
 
-    function fetchAccounts() public view returns (Accounts[] memory) {
-        return accounts;
-    }
-
-    function deleteAccount(base32 hash) public {
+    function deleteAccount(bytes32 hash) public {
         Account acc = accounts[hash];
         require(msg.sender == acc.owner, "Only the account owner can delete the account.");
 
@@ -235,7 +235,7 @@ contract VaYemMarketplace is ReentrancyGuard {
         accounts.pop();
     }
 
-    function removeAccountHash(base32 hash) private {
+    function removeAccountHash(bytes32 hash) private {
         uint length = accountHashes.length;
         for (uint i = 0; i < length; i++) {
             if (accounts[accountHashes[i]].hash == hash) {
@@ -246,7 +246,7 @@ contract VaYemMarketplace is ReentrancyGuard {
         }
     }
 
-    function hire(base32 hash, uint jobId) public payable nonReentrant {
+    function hire(bytes32 hash, uint jobId) public payable nonReentrant {
         // todo: add a one time payment option?
         // todo: add a one time up front payment option?
         // todo: add flag if streaming?
@@ -264,7 +264,7 @@ contract VaYemMarketplace is ReentrancyGuard {
         job.clients.push(msg.sender);
     }
 
-    function endJob(base32 hash, uint jobId) public payable nonReentrant {
+    function endJob(bytes32 hash, uint jobId) public payable nonReentrant {
         Job job = accounts[hash].jobs[jobId];
         require(job.isActive, "Job must be active to end the job");
 

@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Layout, Row, Col } from "antd";
 import LandingLayout from "../../components/layout/LandingLayout";
 import CommunityData from "../../utilities/communities.json";
 import CommunityCard from "../../components/shared/CommunityCard";
-import { useEffect } from "react-router/node_modules/@types/react";
 import Web3Modal from 'web3modal';
 import { ethers } from 'ethers';
 
@@ -30,13 +29,13 @@ const Home = (props: Props) => {
     initialize();
   }, [])
 
-  const connectToMarket = () => {
-    const marketContract = new ethers.Contract(
-      nftMarketAddress,
-      Market.abi,
-      provider
-    );
-  }
+  // const connectToMarket = () => {
+  //   const marketContract = new ethers.Contract(
+  //     nftMarketAddress,
+  //     Market.abi,
+  //     provider
+  //   );
+  // }
 
   const initialize = async () => {
     const SuperfluidSDK = require("@superfluid-finance/js-sdk");

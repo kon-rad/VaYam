@@ -17,7 +17,9 @@ module.exports = {
       accounts: [privateKey],
     },
     goerli: {
+        url: 'https://goerli.infura.io/v3/8f05659663d54368ad0b74cc973eac60',
         chainId: 5,
+        accounts: [privateKey],
     }
   },
   solidity: {
