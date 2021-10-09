@@ -16,8 +16,8 @@ const PageHeader = (props: Props) => {
             <h1 className="title">VaYam</h1>
             <h1>Why We Exist?</h1>
             <p>
-              we aim to make the world more human by building communities that
-              aspire to love, care, inspire and empower others.
+              We aim to make the world better by building tools that
+              empower people to make a living using their creativity and have self determination.
             </p>
             <Link to="/whitepaper" className="read-more">
               Whitepaper

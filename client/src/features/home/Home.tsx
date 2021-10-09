@@ -12,7 +12,6 @@ const { Content } = Layout;
 
 // import Market from '../artifacts/contracts/InLightMarket.sol/InLightMarket.json';
 
-
 declare global {
   interface Window {
     ethereum: any
@@ -123,10 +122,9 @@ const Home = (props: Props) => {
             <div className="content">
               <p>
                 <strong>
-                  We help build Communities that have mission to love, care,
-                  inspire and empower others.
+                  We are a simple to use job platform, where anyone can offer their services for weekly payments.
                 </strong>
-                <p>We are driven with a mission</p>
+                <p>We are driven by a mission to be the protocol for people to make a living that allows for greater self determination and creativity.</p>
               </p>
             </div>
             <Link to="/about" className="read-more center">
