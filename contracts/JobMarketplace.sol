@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.9;
+pragma abicoderv2;
 
 import '@openzeppelin/contracts/utils/Counters.sol';
 import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
@@ -21,17 +22,17 @@ contract VaYemMarketplace is ReentrancyGuard {
     }
 
     struct Job {
-        uint jobId;
-        uint accountId;
+        uint256 jobId;
+        uint256 accountId;
         string description;
         address acc_owner;
-        uint pricePerWeek;
-        uint maxUnits;
+        uint256 pricePerWeek;
+        uint256 maxUnits;
         bool active;
     }
 
     struct Account {
-        uint accountId;
+        uint256 accountId;
         string description;
         string imageUrl;
         address payable acc_owner;
@@ -40,7 +41,7 @@ contract VaYemMarketplace is ReentrancyGuard {
     }
 
     event AccountCreated (
-        uint indexed accountId,
+        uint256 indexed accountId,
         string description,
         string imageUrl,
         address acc_owner,
@@ -49,12 +50,12 @@ contract VaYemMarketplace is ReentrancyGuard {
     );
 
     event JobCreated (
-        uint indexed jobId,
-        uint indexed accountId,
+        uint256 indexed jobId,
+        uint256 indexed accountId,
         string description,
         address acc_owner,
-        uint pricePerWeek,
-        uint maxUnits,
+        uint256 pricePerWeek,
+        uint256 maxUnits,
         bool active
     );
     
@@ -100,6 +101,7 @@ contract VaYemMarketplace is ReentrancyGuard {
             maxUnits,
             true
         );
+        idToAccount[accountId].jobs.push(newJob);
 
         emit JobCreated(
             newJobId,
@@ -112,7 +114,17 @@ contract VaYemMarketplace is ReentrancyGuard {
         );
     }
 
-    fetchAccounts() public view returns (Accounts[] memory) {
-        
+    function fetchAccounts() public view returns (Accounts[] memory) {
+        return accounts;
+    }
+
+    function fetchJobs(uint256 accountId) public view returns (Job[] memory) {
+        return accounts[accountId].jobs;
+    }
+
+    function hire(uint256 accountId, uint256 jobId) public payable nonReentrant {
+        // should there be a one time payment option?
+        // add a one time up front payment option?
+        // if streaming why add the smart contract?
     }
 }
