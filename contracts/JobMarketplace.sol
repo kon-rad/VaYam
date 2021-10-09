@@ -24,18 +24,19 @@ contract VaYemMarketplace is ReentrancyGuard {
 
     struct Job {
         uint256 jobId;
-        uint256 accountId;
         bytes32 accountHash;
+        string title;
         string description;
         address acc_owner;
         uint256 pricePerWeek;
-        uint256 maxUnits;
         bool active;
     }
 
+    // todo: add reviews
     struct Account {
         uint256 accountId;
         bytes32 hash;
+        string title;
         string description;
         string imageUrl;
         address payable acc_owner;
@@ -46,6 +47,7 @@ contract VaYemMarketplace is ReentrancyGuard {
     event AccountCreated (
         uint256 indexed accountId,
         bytes32 hash,
+        string title,
         string description,
         string imageUrl,
         address acc_owner,
@@ -56,18 +58,20 @@ contract VaYemMarketplace is ReentrancyGuard {
     event JobCreated (
         uint256 indexed jobId,
         bytes32 accountHash,
-        uint256 indexed accountId,
+        string title,
         string description,
         address acc_owner,
         uint256 pricePerWeek,
-        uint256 maxUnits,
         bool active
     );
     
-    function createAccount() public payable nonReentrant {
+    function createAccount(string title, string description, string imageUrl) public payable nonReentrant {
         require(msg.value == accountCreationPrice, "Price must equal to account creation price");
         _accountIds.increment();
         uint256 accountId = _accountIds.current();
+
+        // todo: check if title, description, imageUrl are not empty
+        // bytes memory tempEmptyStringTest = bytes(emptyStringTest); // Uses memory
 
         bytes32 hash = keccak256(abi.encodePacked(msg.sender, block.number));
 
@@ -78,6 +82,7 @@ contract VaYemMarketplace is ReentrancyGuard {
         accounts[hash] = Account(
             accountId,
             hash,
+            title,
             description,
             imageUrl,
             payable(msg.sender),
@@ -90,6 +95,7 @@ contract VaYemMarketplace is ReentrancyGuard {
         emit AccountCreated(
             accountId,
             hash,
+            title,
             description,
             imageUrl,
             payable(msg.sender),
@@ -98,38 +104,104 @@ contract VaYemMarketplace is ReentrancyGuard {
     }
 
     function createJob(
-        uint256 accountId,
         bytes32 accountHash,
+        string title,
         string description,
-        uint256 pricePerWeek,
-        uint256 maxUnits
+        uint256 pricePerWeek
     ) public payable nonReentrant {
-        address acc_owner = idToAccount[accountId].acc_owner;
+        address acc_owner = accounts[accountHash].acc_owner;
         require(msg.sender == acc_owner, "Only account owner can create new jobs");
 
-        uint256 newJobId = idToAccount[accountId].jobIds + 1;
-        Job newJob = Job(
+        uint256 newJobId = accounts[accountHash].jobIds + 1;
+        
+        accounts[accountHash].jobs[newJobId] = Job(
             newJobId,
-            accountId,
             accountHash,
+            title,
             description,
             acc_owner,
             pricePerWeek,
-            maxUnits,
             true
         );
-        idToAccount[accountId].jobs.push(newJob);
+        accounts[accountHash].jobIds = newJobId;
 
         emit JobCreated(
             newJobId,
-            accountId,
             accountHash,
+            title,
             description,
             acc_owner,
             pricePerWeek,
-            maxUnits,
             true
         );
+    }
+
+    function pauseJob(bytes32 accountHash, uint jobId) public {
+        address acc_owner = accounts[accountHash].acc_owner;
+        require(msg.sender == acc_owner, "Only account owner can pause jobs");
+
+        accounts[accountHash].jobs[jobId].isActive = false;
+    }
+
+    function activateJob(bytes32 accountHash, uint jobId) public {
+        address acc_owner = accounts[accountHash].acc_owner;
+        require(msg.sender == acc_owner, "Only account owner can activate jobs");
+
+        accounts[accountHash].jobs[jobId].isActive = true;
+    }
+
+    function deleteJob(bytes32 accountHash, uint jobId) public {
+        address acc_owner = accounts[accountHash].acc_owner;
+        require(msg.sender == acc_owner, "Only account owner can delete jobs");
+
+        delete accounts[accountHash].jobs[jobId];
+    }
+
+    function fetchAllJobs(bytes32 accountHash) public view returns (Job[] memory) {
+        address acc_owner = accounts[accountHash].acc_owner;
+        require(msg.sender == acc_owner, "Only account owner can view all jobs");
+
+        uint totalJobsCount = 0;
+        uint currentIndex = 0;
+
+        for (uint i = 0; i < accounts[accountHash].jobs.length; i++) {
+            if (accounts[accountHash].jobs[i] != address(0)) {
+                totalJobsCount += 1;
+            }
+        }
+
+        Job[] jobs = new Job[]()(totalJobsCount);
+
+        for (uint i = 0; i < totalJobsCount; i++) {
+            if (accounts[accountHash].jobs[i] != address(0)) {
+                jobs[currentIndex] = accounts[accountHash].jobs[i];
+                currentIndex += 1;
+            }
+        }
+
+        return jobs;
+    }
+
+    function fetchAllActiveJobs(bytes32 accountHash) public view returns (Job[] memory) {
+        uint totalJobsCount = 0;
+        uint currentIndex = 0;
+
+        for (uint i = 0; i < accounts[accountHash].jobs.length; i++) {
+            if (accounts[accountHash].jobs[i] != address(0) && accounts[accountHash].jobs[i].isActive) {
+                totalJobsCount += 1;
+            }
+        }
+
+        Job[] jobs = new Job[]()(totalJobsCount);
+
+        for (uint i = 0; i < totalJobsCount; i++) {
+            if (accounts[accountHash].jobs[i] != address(0) && accounts[accountHash].jobs[i].isActive) {
+                jobs[currentIndex] = accounts[accountHash].jobs[i];
+                currentIndex += 1;
+            }
+        }
+        
+        return jobs;
     }
 
     function getAllAccountHashes() public view returns (bytes32[] memory) {
@@ -152,6 +224,7 @@ contract VaYemMarketplace is ReentrancyGuard {
         removeAccountHash(hash);
     }
 
+    // todo: delete this maybe
     function removeAccInOrder(uint index) private {
         for (uint i = index; i < totalAccounts; i++) {
             accounts[i] = accounts[i + 1];
@@ -164,6 +237,7 @@ contract VaYemMarketplace is ReentrancyGuard {
         for (uint i = 0; i < length; i++) {
             if (accounts[accountHashes[i]].hash == hash) {
                 accountHashes[i] = accountHashes[length - 1];
+                accountHashes.pop();
                 break;
             }
         }
