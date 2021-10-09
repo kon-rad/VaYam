@@ -12,7 +12,8 @@ contract VaYemMarketplace is ReentrancyGuard {
     Counters.Counter private _accountIds;
 
     address payable owner;
-    uint256 accountCreationPrice = 0.0025 ether;
+    uint accountCreationPrice = 0.0025 ether;
+    uint hiringFee = 0.00025 ether;
 
     mapping(bytes32 => Account) private accounts;
 
@@ -23,52 +24,53 @@ contract VaYemMarketplace is ReentrancyGuard {
     }
 
     struct Job {
-        uint256 jobId;
+        uint jobId;
         bytes32 accountHash;
         string title;
         string description;
         address acc_owner;
-        uint256 pricePerWeek;
+        uint pricePerWeek;
         bool active;
+        address[] clients;
     }
 
     // todo: add reviews
     struct Account {
-        uint256 accountId;
+        uint accountId;
         bytes32 hash;
         string title;
         string description;
         string imageUrl;
         address payable acc_owner;
         Job[] jobs;
-        uint256 jobIds;
+        uint jobIds;
     }
 
     event AccountCreated (
-        uint256 indexed accountId,
+        uint indexed accountId,
         bytes32 hash,
         string title,
         string description,
         string imageUrl,
         address acc_owner,
         Job[] jobs,
-        uint256 jobIds
+        uint jobIds
     );
 
     event JobCreated (
-        uint256 indexed jobId,
+        uint indexed jobId,
         bytes32 accountHash,
         string title,
         string description,
         address acc_owner,
-        uint256 pricePerWeek,
+        uint pricePerWeek,
         bool active
     );
     
     function createAccount(string title, string description, string imageUrl) public payable nonReentrant {
         require(msg.value == accountCreationPrice, "Price must equal to account creation price");
         _accountIds.increment();
-        uint256 accountId = _accountIds.current();
+        uint accountId = _accountIds.current();
 
         // todo: check if title, description, imageUrl are not empty
         // bytes memory tempEmptyStringTest = bytes(emptyStringTest); // Uses memory
@@ -107,12 +109,12 @@ contract VaYemMarketplace is ReentrancyGuard {
         bytes32 accountHash,
         string title,
         string description,
-        uint256 pricePerWeek
+        uint pricePerWeek
     ) public payable nonReentrant {
         address acc_owner = accounts[accountHash].acc_owner;
         require(msg.sender == acc_owner, "Only account owner can create new jobs");
 
-        uint256 newJobId = accounts[accountHash].jobIds + 1;
+        uint newJobId = accounts[accountHash].jobIds + 1;
         
         accounts[accountHash].jobs[newJobId] = Job(
             newJobId,
@@ -121,7 +123,8 @@ contract VaYemMarketplace is ReentrancyGuard {
             description,
             acc_owner,
             pricePerWeek,
-            true
+            true,
+            []
         );
         accounts[accountHash].jobIds = newJobId;
 
@@ -208,7 +211,7 @@ contract VaYemMarketplace is ReentrancyGuard {
         return submissionIndex;
     }
 
-    function geAccountCount() public view returns (uint256) {
+    function getAccountCount() public view returns (uint) {
         return accounts.length;
     }
 
@@ -243,14 +246,38 @@ contract VaYemMarketplace is ReentrancyGuard {
         }
     }
 
-    function fetchJobs(uint256 accountId) public view returns (Job[] memory) {
-        return accounts[accountId].jobs;
-    }
-
-    function hire(uint256 accountId, uint256 jobId) public payable nonReentrant {
+    function hire(base32 hash, uint jobId) public payable nonReentrant {
         // todo: add a one time payment option?
         // todo: add a one time up front payment option?
-        // todo: add flag if streaming
+        // todo: add flag if streaming?
+        Job job = accounts[hash].jobs[jobId];
+        require(job.isActive, "Job must be active to hire");
 
+        require(msg.value == hiringFee, "Price must be equal to hiring fee");
+
+        uint length = job.clients.length;
+        // make sure that the client was not already added in the array
+        for (uint i = 0; i < length; i++) {
+            require(job.clients[i] != msg.sender, "Client may only hire one time per a job");
+        }
+
+        job.clients.push(msg.sender);
+    }
+
+    function endJob(base32 hash, uint jobId) public payable nonReentrant {
+        Job job = accounts[hash].jobs[jobId];
+        require(job.isActive, "Job must be active to end the job");
+
+        uint length = job.clients.length;
+        // remove client from array without maintaining the sort order
+        for (uint i = 0; i < length; i++) {
+            if (job.clients[i] == msg.sender) {
+                job.clients[i] = job.clients[length - 1];
+                job.clients.pop();
+                break;
+            }
+        }
+
+        job.clients.push(msg.sender);
     }
 }
