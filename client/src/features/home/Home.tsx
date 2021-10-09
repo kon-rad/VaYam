@@ -6,8 +6,13 @@ import CommunityData from "../../utilities/communities.json";
 import CommunityCard from "../../components/shared/CommunityCard";
 import { useEffect } from "react-router/node_modules/@types/react";
 import Web3Modal from 'web3modal';
+import { ethers } from 'ethers';
+
 
 const { Content } = Layout;
+
+// import Market from '../artifacts/contracts/InLightMarket.sol/InLightMarket.json';
+
 
 declare global {
   interface Window {
@@ -24,6 +29,14 @@ const Home = (props: Props) => {
   useEffect(() => {
     initialize();
   }, [])
+
+  const connectToMarket = () => {
+    const marketContract = new ethers.Contract(
+      nftMarketAddress,
+      Market.abi,
+      provider
+    );
+  }
 
   const initialize = async () => {
     const SuperfluidSDK = require("@superfluid-finance/js-sdk");

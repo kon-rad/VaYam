@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 pragma solidity ^0.8.9;
-pragma abicoderv2;
 
 import '@openzeppelin/contracts/utils/Counters.sol';
 import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
 
 import "hardhat/console.sol";
 
+// todo: create utility token for job marketplace 
 contract VaYemMarketplace is ReentrancyGuard {
     using Counters for Counters.Counter;
     Counters.Counter private _accountIds;
