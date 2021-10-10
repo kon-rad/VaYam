@@ -88,6 +88,7 @@ const CreateAccount = (props: Props) => {
               </div>
             </div>
           </div>
+          {/* <div style={{textAlign: 'center'}}>The account creation fee is: 0.0025 ETH</div> */}
           <div className="CreateAccount__submitWrapper">
             <button className="btn-primary CreateAccount__submitBtn" onClick={handleSubmit}>Create Account</button>
           </div>

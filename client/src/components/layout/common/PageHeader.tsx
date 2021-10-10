@@ -14,10 +14,9 @@ const PageHeader = (props: Props) => {
           <Col span={18}> </Col>
           <Col span={6} className="whitepaper-info">
             <h1 className="title">VaYam</h1>
-            <h1 className="text-background">Why We Exist?</h1>
+            <h1 className="text-background">Change the way you work</h1>
             <p className="PageHeader__subheading text-background">
-              We aim to make the world better by building tools that
-              empower people to make a living using their creativity.
+              Amplifly your creativity by having a platform where you can earn income from your skills.
             </p>
             <Link to="/get-started" className="read-more">
               Get Started

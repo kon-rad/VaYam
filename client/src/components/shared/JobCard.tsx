@@ -87,6 +87,11 @@ const JobCard = (props: Props) => {
     const details = await currentUser.details();
     console.log(details);
   }
+  const fire = async () => {
+    // acc 2
+    await initialize();
+    await stopFlow('0x2880f6f8a913841ea336e58459821c8f25f97470');
+  }
   const stopFlow = async (recipientAddress: string) => {
     // 0x2880f6f8a913841ea336e58459821c8f25f97470
     await currentUser.flow({
@@ -122,7 +127,7 @@ const JobCard = (props: Props) => {
           <div className="JobCard__price">{price} ETH</div>
           <Link to={`/job/${job.id}`}>learn more</Link>
         </div>
-        <button onClick={handleHire} className="JobCard__hire">
+        <button onClick={fire} className="JobCard__hire">
           HIRE
         </button>
         <div className="group-members">

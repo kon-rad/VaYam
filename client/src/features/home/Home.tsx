@@ -57,8 +57,6 @@ const Home = (props: Props) => {
     console.log('data :D : ', data);
     const newJobs = await Promise.all(data.map(getJobData));
     console.log('all done: ', newJobs);
-    // getJobData(data[0])
-    debugger;
     let nj: any = [];
     newJobs.forEach((item: any) => {
       nj.push(...item);
@@ -100,7 +98,7 @@ const Home = (props: Props) => {
             <div className="see-all">
               <Link to="/communities">See All</Link>
             </div>
-            <h3 className="heading">Services Offered</h3>
+            <h3 className="heading">Jobs</h3>
             <div className="home__row">
             {jobs.map((job, index) => (
                 <div className="home__card">
@@ -118,7 +116,7 @@ const Home = (props: Props) => {
             <div className="content">
               <p>
                 <strong>
-                  We are a simple to use job platform, where anyone can offer their services for weekly payments.
+                  We are a simple to use job platform, where anyone can offer their services for streamed montlhy payments.
                 </strong>
                 <p>We are driven by a mission to be the protocol for people to make a living that allows for greater self determination and creativity.</p>
               </p>

@@ -3,7 +3,7 @@ import MemberComponent from "./MemberComponent";
 import "./PostJob.css";
 import Web3Modal from 'web3modal';
 import { ethers } from 'ethers';
-
+import { useHistory } from "react-router-dom";
 import { vayamAddress } from '../../contracts/config';
 
 import VaYam from '../../contracts/artifacts/contracts/VaYam.sol/VaYam.json';
@@ -13,6 +13,7 @@ interface Props {
 }
 const PostJob = (props: Props) => {
     const [data, setData] = useState<any>({});
+    const history = useHistory();
   const handleSubmit = () => {
     console.log('handleSubmit');
     submitForm();
@@ -47,6 +48,8 @@ const PostJob = (props: Props) => {
     const transaction = await vayamContract.createJob(accHash, title, desc, price);
     await transaction.wait();
     console.log('createJob :D : ', transaction);
+    history.push('/');
+
   }
   const handleChange = (newData: any) => {
       setData({
@@ -83,6 +86,8 @@ const PostJob = (props: Props) => {
               <input onChange={(e) => handleChange({ key: 'price', value: e.target.value })} placeholder="enter Ethereum amount" type="text" name="title" className="CreateAccount__titleInput" />
             </div>
           </div>
+          {/* <div style={{textAlign: 'center'}}>The post creation fee is: 0.00025 ETH</div> */}
+
             <button className="btn-primary CreateAccount__submitBtn" onClick={handleSubmit}>
               Post Service
             </button>
