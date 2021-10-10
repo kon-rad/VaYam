@@ -1,10 +1,10 @@
 const hre = require('hardhat');
 
 async function main() {
-  const Market = await hre.ethers.getContractFactory('VaYamMarketplace');
+  const Market = await hre.ethers.getContractFactory('VaYam');
   const market = await Market.deploy();
   await market.deployed();
-  console.log('VaYamMarketplace deployed to: ', market.address);
+  console.log('VaYam deployed to: ', market.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

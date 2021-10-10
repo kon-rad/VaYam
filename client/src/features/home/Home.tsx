@@ -8,6 +8,9 @@ import Web3Modal from 'web3modal';
 import { ethers } from 'ethers';
 import './Home.css';
 
+import { vayamAddress } from '../../contracts/config';
+
+import VaYam from '../../contracts/artifacts/contracts/VaYam.sol/VaYam.json';
 
 const { Content } = Layout;
 
@@ -27,6 +30,7 @@ const Home = (props: Props) => {
 
   useEffect(() => {
     initialize();
+    loadAllJobs();
   }, [])
 
   // const connectToMarket = () => {
@@ -45,7 +49,6 @@ const Home = (props: Props) => {
     const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
     // const provider = new ethers.providers.Web3Provider(connection);
-
 
     console.log('window.ethereum: ', window.ethereum);
     console.log('pre SuperfluidSDK');
@@ -94,6 +97,25 @@ const Home = (props: Props) => {
   
   const details = await carol.details();
   console.log('stop: ', details);
+  }
+
+  const loadAllJobs = async (): Promise<any> => {
+    const web3Modal = new Web3Modal({
+      network: 'goerli',
+      cacheProvider: true,
+    });
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+
+    const vayamContract = new ethers.Contract(
+      vayamAddress,
+      VaYam.abi,
+      signer
+    )
+
+    const data = await vayamContract.getAllAccountHashes();
+    console.log('data: ', data);
   }
 
   const style = { background: '#0092ff', padding: '8px 0' };
