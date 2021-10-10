@@ -12,10 +12,10 @@ const Heading = (props: Props) => {
   const { title, description } = props;
   return (
       <div className="Heading">
-          <h3 className="Heading__title">
+          <h3 className="Heading__title text-background">
               {title}
           </h3>
-            <div className="Heading__desc">
+            <div className="Heading__desc text-background">
                 {description}
             </div>
       </div>

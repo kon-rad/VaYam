@@ -55,10 +55,16 @@ const Home = (props: Props) => {
     )
     const data = await vayamContract.getAllAccountHashes();
     console.log('data :D : ', data);
-    await Promise.all(data.map(getJobData));
-    console.log('all done: ', jobs);
+    const newJobs = await Promise.all(data.map(getJobData));
+    console.log('all done: ', newJobs);
     // getJobData(data[0])
+    debugger;
+    let nj: any = [];
+    newJobs.forEach((item: any) => {
+      nj.push(...item);
+    });
 
+    setJobs([...jobs, ...nj]);
   }
 
   const getJobData = async (accHash: string) => {
@@ -76,9 +82,10 @@ const Home = (props: Props) => {
       VaYam.abi,
       signer
     )
-    const newJobs = await vayamContract.fetchAllJobsPerAccount(accHash);
+    const newJobs = await vayamContract.fetchAllActiveJobsPerAccount(accHash);
     console.log('fetchAllJobsPerAccount jobs in getJobData: ', newJobs);
-    setJobs([...jobs, ...newJobs]);
+    // setJobs([...jobs, ...newJobs]);
+    return newJobs
   }
 
   const style = { background: '#0092ff', padding: '8px 0' };
@@ -93,7 +100,7 @@ const Home = (props: Props) => {
             <div className="see-all">
               <Link to="/communities">See All</Link>
             </div>
-            <h3 className="heading">"Jobs"</h3>
+            <h3 className="heading">Services Offered</h3>
             <div className="home__row">
             {jobs.map((job, index) => (
                 <div className="home__card">

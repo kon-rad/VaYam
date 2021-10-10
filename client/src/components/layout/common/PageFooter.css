@@ -1,0 +1,30 @@
+.Footer__wrapper {
+    background-color: #373a5b;
+    display: flex;
+    padding: 40px 60px;
+    margin-top: 80px;
+}
+.Footer__leftSect {
+    width: 70%;
+    display: flex;
+    border-right: solid 2px gray;
+}
+.Footer__col {
+    width: 30%;
+}
+.Footer__title {
+    color: white;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+.Footer__link {
+    color: white;
+    margin-bottom: 8px;
+}
+.Footer__rightSect {
+    padding-left: 20px;
+}
+.Footer__info {
+    font-weight: 500;
+    color: white;
+}

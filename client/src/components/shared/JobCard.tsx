@@ -5,6 +5,7 @@ import "./JobCard.css";
 import CommunityData from "../../utilities/communities.json";
 import Web3Modal from 'web3modal';
 import { ethers } from 'ethers';
+import FiveStars from '../../assets/images/stars4.png';
 
 type Member = {
   id: number;
@@ -31,6 +32,8 @@ const JobCard = (props: Props) => {
   const handleHire = async () => {
     console.log('handleHire triggered');
     await initialize();
+    console.log('job[ACC_OWNER_INDEX]', job[ACC_OWNER_INDEX]);
+    
     await makeFlow(job[ACC_OWNER_INDEX]);
   }
 
@@ -72,6 +75,9 @@ const JobCard = (props: Props) => {
   }
 
   const makeFlow = async (recipientAddress: string) => {
+    debugger;
+    console.log(recipientAddress);
+    
     // 0x2880f6f8a913841ea336e58459821c8f25f97470
       await currentUser.flow({
         recipient: recipientAddress,
@@ -94,6 +100,7 @@ const JobCard = (props: Props) => {
 
   let price = ethers.utils.formatUnits(job[PRICE_PER_WEEK_INDEX].toString(), 'ether');
   console.log('price: ', price);
+  const stars = (3 + (Math.random() * 2)).toFixed(2);
   
   return (
       <Card
@@ -103,13 +110,21 @@ const JobCard = (props: Props) => {
         } 
         bordered={false}
       >
+        <div className="JobCard__body">
+          <h4>{job[TITLE_INDEX]}</h4>
+          <div className="JobCard__reviewsWrapper">
+            <div className="JobCard__reviewsOverlay">
+              {stars} stars
+              {/* <img src={FiveStars} alt="" className="JobCard__reviews" /> */}
+            </div>
+          </div>
+          <p>{job[DESCRIPTION_INDEX]}</p>
+          <div className="JobCard__price">{price} ETH</div>
+          <Link to={`/job/${job.id}`}>learn more</Link>
+        </div>
         <button onClick={handleHire} className="JobCard__hire">
           HIRE
         </button>
-        <h4>{job[TITLE_INDEX]}</h4>
-        <p>{job[DESCRIPTION_INDEX]}</p>
-      
-        <div className="JobCard__price">{price}</div>
         <div className="group-members">
           {/* {members.map((member) => (
             <MemberComponent
@@ -118,7 +133,6 @@ const JobCard = (props: Props) => {
               id={member.id}
             />
           ))} */}
-          <Link to={`/job/${job.id}`}>learn more</Link>
         </div>
       </Card>
   );

@@ -57,3 +57,31 @@
   position: absolute;
   right: 24px;
 }
+
+.JobCard__hire {
+  background-color: var(--primary-color);
+  border: solid 1px var(--primary-color);
+  outline: none;
+  padding: 6px 26px;
+  color: white;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.JobCard__hire:hover {
+  background-color: #ff6563ab;
+  border: solid 1px #ff6563ab;
+}
+.ant-card-body {
+  padding: 10px;
+}
+.JobCard__body {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  text-align: left;
+  padding-bottom: 10px;
+}
+.JobCard__price {
+  margin-bottom: 10px;
+}

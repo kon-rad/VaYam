@@ -135,3 +135,45 @@ section {
 .home {
   /* background-color: gray; */
 }
+.btn-primary {
+  background-color: var(--primary-color);
+  border: solid 1px var(--primary-color);
+  outline: none;
+  padding: 6px 26px;
+  color: white;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #ff6563ab;
+  border: solid 1px #ff6563ab;
+}
+.btn-secondary {
+  background-color: transparent;
+  border: solid 1px var(--primary-color);
+  outline: none;
+  padding: 6px 26px;
+  color: var(--primary-color);
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: #ff6563ab;
+  border: solid 1px #ff6563ab;
+  color: white;
+}
+.text-background {
+    text-shadow:
+        0.05em 0 black,
+        0 0.05em black,
+        -0.05em 0 black,
+        0 -0.05em black,
+        -0.05em -0.05em black,
+        -0.05em 0.05em black,
+        0.05em -0.05em black,
+        0.05em 0.05em black;
+}

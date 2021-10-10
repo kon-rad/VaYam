@@ -1,6 +1,7 @@
 /* Header */
 .header {
-  background-image: url(../../../assets/images/landing-header-image.png);
+  background-image: linear-gradient(          rgb(0 0 0 / 20%),           rgba(0, 0, 0, 0.7)        ), url(../../../assets/images/landing-header-image.png);
+  /* url(../../../assets/images/landing-header-image.png); */
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: scroll;
@@ -42,4 +43,9 @@
 
 .heading {
   margin-bottom: 2.813rem;
+}
+
+.PageHeader__subheading {
+  font-size: 18px;
+  width: 40%;
 }

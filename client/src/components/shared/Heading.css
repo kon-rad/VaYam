@@ -1,6 +1,7 @@
 .Heading {
     padding: 100px 160px;
-    background-image: url(../../assets/images/landing-header-image.png);
+    /* background-image: url(../../assets/images/landing-header-image.png); */
+      background-image: linear-gradient(          rgb(0 0 0 / 20%),           rgba(0, 0, 0, 0.7)        ), url(../../assets/images/landing-header-image.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: scroll;
@@ -9,4 +10,11 @@
     position: relative;
     z-index: 1;
     text-align: center;
+}
+.Heading__title {
+    font-size: 32px;
+    font-weight: 700;
+}
+.Heading__desc {
+    font-size: 18px;
 }

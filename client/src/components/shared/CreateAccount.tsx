@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import MemberComponent from "./MemberComponent";
 import "./CreateAccount.css";
 import Web3Modal from 'web3modal';
 import { ethers } from 'ethers';
+import avatarPlaceholder from '../../assets/images/avatar-placeholder.png';
 
 import { vayamAddress } from '../../contracts/config';
 
@@ -11,6 +13,7 @@ interface Props {
 }
 
 const CreateAccount = (props: Props) => {
+  const [data, setData] = useState<any>({});
   const handleImgUpload = () => {
     console.log('img upload');
   }
@@ -34,8 +37,9 @@ const CreateAccount = (props: Props) => {
       signer
     )
 
-    const title = 'first account title';
-    const desc = 'first account description';
+    const title = data.title;
+    const desc = data.desc;
+    // todo: implement image upload to ipfs
     const imgUrl = 'first img url';
     let accountCreationPrice = await vayamContract.getAccountCreationPrice();
     accountCreationPrice = accountCreationPrice.toString();
@@ -48,34 +52,45 @@ const CreateAccount = (props: Props) => {
     console.log('transaction :D : ', transaction);
   }
 
+  const handleChange = (newData: any) => {
+    setData({
+        ...data,
+        [newData.key]: newData.value,
+    })
+  }
   return (
     <div className="CreateAccount__wrapper">
       <div className="CreateAccount">
-          <h3>Create an account:</h3>
-          <div className="CreateAccount__section">
-            <div className="CreateAccount__imgWrapper">
-              <h3>Upload your avatar image:</h3>
-              <img src="" alt=""  className="CreateAccount__img"/>
-              <button className="CreateAccount__imgBtn" onClick={handleImgUpload}>Upload file</button>
+          <h3 className="CreateAccount__heading">Create an account:</h3>
+          <div className="CreateAccount__sectWrapper">
+            <div className="CreateAccount__imgSection">
+              <div className="CreateAccount__imgWrapper">
+                <img src={avatarPlaceholder} alt=""  className="CreateAccount__img"/>
+                <button className="btn-secondary CreateAccount__imgBtn" onClick={handleImgUpload}>upload avatar</button>
+              </div>
+            </div>
+            <div className="CreateAccount__sideSection">
+              <div className="CreateAccount__section">
+                <div className="CreateAccount__title">
+                  Title
+                </div>
+                <div className="CreateAccount__input">
+                  <input onChange={(e) => handleChange({ key: 'title', value: e.target.value })} placeholder="what should your account be called?" type="text" name="title" className="CreateAccount__titleInput" />
+                </div>
+              </div>
+              <div className="CreateAccount__section">
+                <div className="CreateAccount__title">
+                  Description
+                </div>
+                <div className="CreateAccount__input">
+                  <textarea onChange={(e) => handleChange({ key: 'desc', value: e.target.value })} placeholder="what kind of services will your account offer?" name="description" className="CreateAccount__descInput"></textarea>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="CreateAccount__section">
-            <div className="CreateAccount__title">
-              Title
-            </div>
-            <div className="CreateAccount__input">
-              <input type="text" name="title" className="CreateAccount__titleInput" />
-            </div>
+          <div className="CreateAccount__submitWrapper">
+            <button className="btn-primary CreateAccount__submitBtn" onClick={handleSubmit}>Create Account</button>
           </div>
-          <div className="CreateAccount__section">
-            <div className="CreateAccount__title">
-              Description
-            </div>
-            <div className="CreateAccount__input">
-              <input type="text" name="description" className="CreateAccount__titleInput" />
-            </div>
-          </div>
-          <button className="CreateAccount__submitBtn" onClick={handleSubmit}>Create Account</button>
         </div>
     </div>
   );
