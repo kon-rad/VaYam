@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout, Row, Col } from "antd";
 import { Header } from '../../components/layout/common';
-import CommunityData from "../../utilities/communities.json";
-import CommunityCard from "../../components/shared/CommunityCard";
+import JobCard from "../../components/shared/JobCard";
 import Web3Modal from 'web3modal';
 import { ethers } from 'ethers';
 import './Home.css';
@@ -11,7 +10,6 @@ import './Home.css';
 import { vayamAddress } from '../../contracts/config';
 
 import VaYam from '../../contracts/artifacts/contracts/VaYam.sol/VaYam.json';
-
 
 // import Market from '../artifacts/contracts/InLightMarket.sol/InLightMarket.json';
 
@@ -26,10 +24,7 @@ interface Props {}
 const Home = (props: Props) => {
   const [jobs, setJobs] = useState(Array());
 
-  let carol: any;
-
   useEffect(() => {
-    initialize();
     loadAllJobs();
   }, [])
 
@@ -41,63 +36,6 @@ const Home = (props: Props) => {
   //   );
   // }
 
-  const initialize = async () => {
-    const SuperfluidSDK = require("@superfluid-finance/js-sdk");
-    const { Web3Provider } = require("@ethersproject/providers");
-
-
-    const web3Modal = new Web3Modal();
-    const connection = await web3Modal.connect();
-    // const provider = new ethers.providers.Web3Provider(connection);
-
-    console.log('window.ethereum: ', window.ethereum);
-    console.log('pre SuperfluidSDK');
-    const sf = new SuperfluidSDK.Framework({
-        ethers: new Web3Provider(connection)
-    });
-    console.log('pre initialized');
-    await sf.initialize()
-    console.log('initialized');
-
-    const walletAddress = await window.ethereum.request({
-      method: 'eth_requestAccounts',
-      params: [
-        {
-          eth_accounts: {}
-        }
-      ]
-    });
-
-    console.log('addr: ', walletAddress);
-        
-    carol = sf.user({
-        address: walletAddress[0],
-        token: '0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00'
-    });
-    const details = await carol.details();
-    console.log(details);
-
-  }
-  const makeFlow = async () => {
-    // 0x2880f6f8a913841ea336e58459821c8f25f97470
-      await carol.flow({
-        recipient: '0x2880f6f8a913841ea336e58459821c8f25f97470',
-        flowRate: '385802469135802'
-    });
-    
-    const details = await carol.details();
-    console.log(details);
-  }
-  const stopFlow = async () => {
-    // 0x2880f6f8a913841ea336e58459821c8f25f97470
-    await carol.flow({
-      recipient: '0x2880f6f8a913841ea336e58459821c8f25f97470',
-      flowRate: '0'
-    });
-    
-    const details = await carol.details();
-    console.log('stop: ', details);
-  }
 
 
   const loadAllJobs = async (): Promise<any> => {
@@ -117,13 +55,9 @@ const Home = (props: Props) => {
     )
     const data = await vayamContract.getAllAccountHashes();
     console.log('data :D : ', data);
-    await Promise.all(data.map(async (accHash: string) => {
-      const newJobs = await vayamContract.fetchAllActiveJobsPerAccount(accHash);
-      console.log('new jobs: ', newJobs);
-      setJobs([...jobs, newJobs])
-    }));
+    await Promise.all(data.map(getJobData));
     console.log('all done: ', jobs);
-    getJobData(data[0])
+    // getJobData(data[0])
 
   }
 
@@ -144,9 +78,12 @@ const Home = (props: Props) => {
     )
     const newJobs = await vayamContract.fetchAllJobsPerAccount(accHash);
     console.log('fetchAllJobsPerAccount jobs in getJobData: ', newJobs);
+    setJobs([...jobs, ...newJobs]);
   }
 
   const style = { background: '#0092ff', padding: '8px 0' };
+  console.log('render jobs: ', jobs);
+  
   return (
     <React.Fragment>
         <Header />
@@ -158,9 +95,9 @@ const Home = (props: Props) => {
             </div>
             <h3 className="heading">"Jobs"</h3>
             <div className="home__row">
-            {CommunityData.slice(0, 3).map((community, index) => (
+            {jobs.map((job, index) => (
                 <div className="home__card">
-                  <CommunityCard index={index} community={community} />
+                  <JobCard index={index} job={job} />
                 </div>
               ))}
             </div>

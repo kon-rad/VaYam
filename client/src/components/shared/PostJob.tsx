@@ -32,10 +32,9 @@ const PostJob = (props: Props) => {
 
     const accHash = '0x0c8b5ee7b4282bdc09abc2757b135cd471f739f7b738871421b7936e2ff484c4';
 
-
-    const title = 'first job title';
-    const desc = 'first job description';
-    const pricePerWeek = '2';
+    const title = 'second job title';
+    const desc = 'second job description';
+    const pricePerWeek = '9';
     const price = ethers.utils.parseUnits(pricePerWeek, 'ether');
 
     const transaction = await vayamContract.createJob(accHash, title, desc, pricePerWeek);
