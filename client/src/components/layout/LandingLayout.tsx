@@ -1,5 +1,5 @@
 import React from "react";
-import { Topbar, Header, Footer } from "./common";
+import { Topbar, Footer } from "./common";
 
 interface Props {
   children: any;
@@ -10,7 +10,6 @@ const LandingLayout = (props: Props) => {
     <>
       <main>
         <Topbar />
-        <Header />
         {props.children}
         <Footer />
       </main>

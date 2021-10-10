@@ -17,6 +17,8 @@ body {
   background-size: 1360px;
   background-repeat: repeat;
   height: auto;
+  height: 100%;
+  min-height: 1360px;
 }
 
 h1,
@@ -129,3 +131,7 @@ section {
 }
 
 @import "./assets/css/_overwrite.css";
+
+.home {
+  /* background-color: gray; */
+}

@@ -1,0 +1,12 @@
+.Heading {
+    padding: 100px 160px;
+    background-image: url(../../assets/images/landing-header-image.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: scroll;
+    min-height: 120px;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}

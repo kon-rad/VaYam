@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Layout, Row, Col } from "antd";
-import LandingLayout from "../../components/layout/LandingLayout";
+import { Header } from '../../components/layout/common';
 import CommunityData from "../../utilities/communities.json";
 import CommunityCard from "../../components/shared/CommunityCard";
 import Web3Modal from 'web3modal';
@@ -12,7 +12,6 @@ import { vayamAddress } from '../../contracts/config';
 
 import VaYam from '../../contracts/artifacts/contracts/VaYam.sol/VaYam.json';
 
-const { Content } = Layout;
 
 // import Market from '../artifacts/contracts/InLightMarket.sol/InLightMarket.json';
 
@@ -115,13 +114,13 @@ const Home = (props: Props) => {
     )
 
     const data = await vayamContract.getAllAccountHashes();
-    console.log('data: ', data);
+    console.log('data :D : ', data);
   }
 
   const style = { background: '#0092ff', padding: '8px 0' };
   return (
-    <LandingLayout>
-      <Content>
+    <React.Fragment>
+        <Header />
         {/* Communities */}
         <section className="stories">
           <div className="container">
@@ -158,8 +157,7 @@ const Home = (props: Props) => {
         </section>
 
         {/* Roadmap */}
-      </Content>
-    </LandingLayout>
+    </React.Fragment>
   );
 };
 
