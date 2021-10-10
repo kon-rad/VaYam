@@ -127,7 +127,7 @@ const JobCard = (props: Props) => {
           <div className="JobCard__price">{price} ETH</div>
           <Link to={`/job/${job.id}`}>learn more</Link>
         </div>
-        <button onClick={fire} className="JobCard__hire">
+        <button onClick={handleHire} className="JobCard__hire">
           HIRE
         </button>
         <div className="group-members">
