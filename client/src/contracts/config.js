@@ -1,1 +1,1 @@
-export const vayamAddress = '0x13014E5c0e611BABe18A113Ef9EE215165974487';
+export const vayamAddress = '0x1fa9533F44FB76EFE09223eef7277f1696C01eD6';

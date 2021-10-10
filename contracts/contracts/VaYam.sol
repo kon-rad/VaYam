@@ -19,7 +19,6 @@ contract VaYam is ReentrancyGuard {
     mapping(bytes32 => Job) private jobs;
 
     bytes32[] public accountHashes;
-    bytes32[] public jobtHashes;
 
     constructor() {
         owner = payable(msg.sender);
@@ -67,6 +66,10 @@ contract VaYam is ReentrancyGuard {
         address acc_owner,
         uint pricePerWeek
     );
+
+    function getAccountCreationPrice() public view returns (uint) {
+        return accountCreationPrice;
+    }
     
     function createAccount(string calldata title, string  calldata description, string calldata imageUrl) public payable nonReentrant {
         require(msg.value == accountCreationPrice, "Price must equal to account creation price");

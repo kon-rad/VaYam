@@ -1,5 +1,11 @@
 import MemberComponent from "./MemberComponent";
 import "./CreateAccount.css";
+import Web3Modal from 'web3modal';
+import { ethers } from 'ethers';
+
+import { vayamAddress } from '../../contracts/config';
+
+import VaYam from '../../contracts/artifacts/contracts/VaYam.sol/VaYam.json';
 
 interface Props {
 }
@@ -10,8 +16,38 @@ const CreateAccount = (props: Props) => {
   }
   const handleSubmit = () => {
     console.log('handleSubmit');
-    
+    submitForm();
   }
+
+  const submitForm = async (): Promise<any> => {
+    const web3Modal = new Web3Modal({
+      network: 'goerli',
+      cacheProvider: true,
+    });
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+
+    const vayamContract = new ethers.Contract(
+      vayamAddress,
+      VaYam.abi,
+      signer
+    )
+
+    const title = 'first account title';
+    const desc = 'first account description';
+    const imgUrl = 'first img url';
+    let accountCreationPrice = await vayamContract.getAccountCreationPrice();
+    accountCreationPrice = accountCreationPrice.toString();
+    console.log('accountCreationPrice: ', accountCreationPrice);
+
+    const transaction = await vayamContract.createAccount(title, desc, imgUrl, {
+      value: accountCreationPrice,
+    });
+    await transaction.wait();
+    console.log('transaction :D : ', transaction);
+  }
+
   return (
     <div className="CreateAccount__wrapper">
       <div className="CreateAccount">

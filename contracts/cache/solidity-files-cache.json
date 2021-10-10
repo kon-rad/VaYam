@@ -104,8 +104,8 @@
       ]
     },
     "/Users/konradgnat/dev/blockchain/VaYam/contracts/contracts/VaYam.sol": {
-      "lastModificationDate": 1633844378582,
-      "contentHash": "f70f9fa8b9fb3e1e0f302bf96412f9de",
+      "lastModificationDate": 1633854723082,
+      "contentHash": "d118da7fac613de158449a648e7ce024",
       "sourceName": "contracts/VaYam.sol",
       "solcConfig": {
         "version": "0.8.9",

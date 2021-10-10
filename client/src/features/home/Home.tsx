@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout, Row, Col } from "antd";
 import { Header } from '../../components/layout/common';
@@ -24,6 +24,7 @@ interface Props {}
 //const CommunityData = CommunityData.slice(0, 3);
 
 const Home = (props: Props) => {
+  const [jobs, setJobs] = useState(Array());
 
   let carol: any;
 
@@ -92,29 +93,57 @@ const Home = (props: Props) => {
     await carol.flow({
       recipient: '0x2880f6f8a913841ea336e58459821c8f25f97470',
       flowRate: '0'
-  });
-  
-  const details = await carol.details();
-  console.log('stop: ', details);
+    });
+    
+    const details = await carol.details();
+    console.log('stop: ', details);
   }
+
 
   const loadAllJobs = async (): Promise<any> => {
     const web3Modal = new Web3Modal({
       network: 'goerli',
       cacheProvider: true,
     });
+
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
-
+  
     const vayamContract = new ethers.Contract(
       vayamAddress,
       VaYam.abi,
       signer
     )
-
     const data = await vayamContract.getAllAccountHashes();
     console.log('data :D : ', data);
+    await Promise.all(data.map(async (accHash: string) => {
+      const newJobs = await vayamContract.fetchAllActiveJobsPerAccount(accHash);
+      console.log('new jobs: ', newJobs);
+      setJobs([...jobs, newJobs])
+    }));
+    console.log('all done: ', jobs);
+    getJobData(data[0])
+
+  }
+
+  const getJobData = async (accHash: string) => {
+    const web3Modal = new Web3Modal({
+      network: 'goerli',
+      cacheProvider: true,
+    });
+
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+  
+    const vayamContract = new ethers.Contract(
+      vayamAddress,
+      VaYam.abi,
+      signer
+    )
+    const newJobs = await vayamContract.fetchAllJobsPerAccount(accHash);
+    console.log('fetchAllJobsPerAccount jobs in getJobData: ', newJobs);
   }
 
   const style = { background: '#0092ff', padding: '8px 0' };
